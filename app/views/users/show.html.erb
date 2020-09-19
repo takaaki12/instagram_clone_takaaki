@@ -1,0 +1,93 @@
+<% provide(:title, @user.name) %>
+<div class="row">
+  <aside class="col-md-3">
+    <section class="user_info">
+      <h1>
+        <%= gravatar_for @user %>
+        <%= @user.name %>
+      </h1>
+      <p>ID: <%= @user.user_name %></p>
+      <p><%= link_to "Settings", edit_user_path(current_user) %></p>
+    </section>
+    <section>
+      <%= @user.introduction %>
+    </section>
+    <section class="stats">
+      <%= render 'shared/stats' %>
+    </section>
+  </aside>
+  <div class="col-md-9">
+    <%= render 'follow_form' if logged_in? %>
+    <% if @user.microposts.any? %>
+      <h3>Microposts (<%= @user.microposts.count %>)</h3>
+      
+        <% @user.microposts.each_slice(3) do |group| %>
+          <div class="row">
+           
+            <% group.each do |micropost| %>
+              <div class="col-md-3">
+                <section class="microposts">
+                  <span class="content">
+                    <%= micropost.content %>
+                    
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#imageModal-<%= micropost.id %>">
+                     <%= image_tag micropost.display_image if micropost.image.attached? %>
+                    </span>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="imageModal-<%= micropost.id %>" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="imageModalLabel"> This Post's Comments</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                              <span class="modal-content_image">
+                                <div id="micropost_area">
+                                  <%= micropost.content %><br>
+                                  <%= image_tag micropost.display_image if micropost.image.attached? %>
+                                </div>
+                              </span><br>
+                            <hr/>
+                            <!--コメント表示-->
+                            <div class="comment_index">
+                              <% micropost.comments.each do |comment| %>
+                                     <p><%= link_to gravatar_for(comment.user, size: 50), comment.user %>
+                                     <%= link_to "#{comment.user.name}" , comment.user %>: <%= comment.body %></p>
+                                     <span class= "batu"><%= link_to "delete" , [micropost,comment] , method: :delete if current_user?(comment.user) %></span>
+                                <hr/>
+                              <% end %>
+                            </div>
+                            
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <%= link_to "This Post's Page", micropost_path(micropost.id) %>
+                    </span>
+                  <span class="timestamp">
+                    Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+                    <% if current_user?(micropost.user) %>
+                      <%= link_to "delete", micropost, method: :delete,
+                                                       data: { confirm: "You sure?" } %>
+                    <% end %>
+                  </span>
+                </section>
+              </div>
+            <% end %>
+
+          </div>
+        <% end %>
+        
+      <%= will_paginate @microposts %>
+    <% end %>
+  </div>
+</div>

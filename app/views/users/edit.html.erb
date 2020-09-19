@@ -1,0 +1,47 @@
+<% provide(:title, "Edit user") %>
+<h1>Update your profile</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(model: @user, local: true) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name, placeholder: "Full name", class: 'form-control' %>
+      
+      <%= f.label :user_name %>
+      <%= f.text_field :user_name, class: 'form-control' %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+      
+      <%= f.label :phone_number %>
+      <%= f.text_field :phone_number, class: 'form-control' %>
+      
+      <%= f.label :sex %>
+      <%= f.select :sex, [["",""], ["女性（彼女）","女性（彼女）"], ["男性（彼）","男性（彼）"], ["中性（彼ら）","中性（彼ら）"]], {}, class: 'form-control' %>
+
+      <%= f.label :introduction %>
+      <%= f.text_area :introduction, class: 'form-control', id: 'user_introduction' %>
+      
+      <%= f.label :websiteurl %>
+      <%= f.text_area :websiteurl, class: 'form-control' %>
+
+      <%= f.submit "Save changes", class: "btn btn-primary" %>
+      
+      <%= link_to "Change Password", change_password_user_path(@user.id) %>
+    <% end %>
+
+    <p>
+    <div class="gravatar_edit">
+      <%= gravatar_for @user %>
+      <a href="https://gravatar.com/emails">Icon change</a>
+    </div>
+    </p>
+    <p>
+    <button type="button" class="btn btn-outline-danger">
+      <%= link_to "Your Account Delete", @user, method: :delete, data: { confirm: "You sure?" } %>
+    </button>
+    </p>
+  </div>
+</div>
