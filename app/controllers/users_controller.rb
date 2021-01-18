@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
+  include GuestSessionsHelper
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
   before_action :correct_user, only: [:edit, :update]
+  before_action :block_guest_user, only: [:edit, :update, :destroy]
   
   def index
     @users = User.paginate(page: params[:page])
@@ -78,5 +80,9 @@ class UsersController < ApplicationController
       redirect_to(root_url) unless current_user?(@user)
     end
     
+    def block_guest_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless guest_user?(@user)
+    end
     
 end

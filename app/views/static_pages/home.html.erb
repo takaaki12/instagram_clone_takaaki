@@ -28,7 +28,8 @@
   <div class="center jumbotron">
     <div class="welcomespace">
       <p class="welcome">Welcome to the Instagram Clone</p>
-      <%= link_to "Sign up now!", signup_path, class: "btn  btn-info" %>
+      <div><%= link_to "Sign up now!", signup_path, class: "btn  btn-info signup-btn" %></div>
+      <div><%= link_to "Login as a guest user!", guest_path, method: :post, class: "btn  btn-success guest-login-btn" %></div>
     </div>
   </div>
 <% end %>
