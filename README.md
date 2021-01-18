@@ -1,6 +1,9 @@
 # README
 ## Instagram-clone
 
+### [Heroku]  
+https://instagram-clone-takaaki.herokuapp.com
+
 ### サイト内容
 Instagramを模して作成した画像・テキスト投稿サイト
 
@@ -33,9 +36,6 @@ heroku AWS S3
 Minitest  
 ■その他ツールなど  
 Git GitHub  
-
-### [GitHub]  
-https://github.com/takaaki12/instagram_clone
 
 ### 自分が苦労した点  
 　・ネットで調べ、そこに乗っている助言通りに実装するとうまくいかず、  
